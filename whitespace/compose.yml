@@ -1,6 +1,7 @@
 services:
   ruok_whitespace:
     container_name: ruok_whitespace
+    image: ruok_whitespace:latest
     build: ./app
     restart: always
     env_file:
