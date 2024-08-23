@@ -1,0 +1,27 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /telegram_bot_storage_state/{document=**} {
+      allow read, write: if false;
+    }
+    match /telegram_bot_storage_data/{document=**} {
+      allow read, write: if false;
+    }
+    match /conversation_message_feedback/{document=**} {
+      allow read, write: if false;
+    }
+    match /conversation_messages/{document=**} {
+      allow read, write: if false;
+    }
+    match /conversations/{document=**} {
+      allow read, write: if false;
+    }
+    match /memory_store/{document=**} {
+      allow read, write: if false;
+    }
+    match /users/{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
