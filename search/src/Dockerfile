@@ -2,13 +2,13 @@ FROM python:3.12.4
 
 COPY --from=ghcr.io/astral-sh/uv:0.3.0 /uv /bin/uv
 
-WORKDIR /api
+WORKDIR /app
 
 COPY ./requirements.txt .
 RUN uv pip install --system "psycopg[binary]" \
     && uv pip install --system -r requirements.txt
 
-COPY ./src/search /api/search
+COPY ./src/search /app/search
 
 EXPOSE 8100
 

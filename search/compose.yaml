@@ -19,7 +19,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./api:/src/search
+      - ./src:/app
     networks:
       - search_internal
     ports:
