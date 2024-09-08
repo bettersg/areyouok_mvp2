@@ -25,6 +25,12 @@ async def get(database: AsyncConnectionPool, doc_id: str) -> Document | None:
             )
 
 
+async def delete(database: AsyncConnectionPool, doc_id: str):
+    async with database.connection() as conn:
+        async with conn.cursor() as cursor:
+            await cursor.execute(sql.DELETE_DOCUMENT, (doc_id,))
+
+
 async def add(database: AsyncConnectionPool, document: Document):
     async with database.connection() as conn:
         async with conn.cursor() as cursor:

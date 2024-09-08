@@ -31,3 +31,7 @@ FETCH_DOCUMENT = """
     WHERE
         doc.doc_id = %s;
     """
+
+DELETE_DOCUMENT = """
+    DELETE FROM raw.documents WHERE doc_id = %s;
+    """

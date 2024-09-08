@@ -1,6 +1,7 @@
 import uuid
 from datetime import UTC
 from datetime import datetime
+from typing import Literal
 from typing import Self
 
 from pydantic import BaseModel
@@ -25,3 +26,4 @@ class Document(BaseModel):
 class DocumentResponse(BaseModel):
     document_id: str
     timestamp: datetime
+    status: Literal["added", "deleted"]
