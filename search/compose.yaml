@@ -1,0 +1,43 @@
+volumes:
+  cache:
+    driver: local
+
+networks:
+  search_internal:
+    driver: bridge
+
+services:  
+  ruok_search_api:
+    container_name: ruok_search_api
+    image: ruok_search_api:latest
+    build:
+      context: ./
+      dockerfile: ./src/Dockerfile
+    restart: always
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+    volumes:
+      - ./api:/src/search
+    networks:
+      - search_internal
+    ports:
+      - 8100:8100
+    
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    hostname: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - PGDATA=${POSTGRES_DATA_PATH}
+    volumes:
+      - ${POSTGRES_DATA_PATH}:${POSTGRES_DATA_PATH}
+      - ${POSTGRES_CONFIG_PATH}:${POSTGRES_CONFIG_PATH}
+    command: ["postgres", "-c", "config_file=${POSTGRES_CONFIG_PATH}/postgresql.conf"]
+    networks:
+      - search_internal
