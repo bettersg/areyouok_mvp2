@@ -28,7 +28,7 @@ CHUNKER = SemanticChunker(
     breakpoint_threshold_amount=0.5,
 )
 
-POSTGRES_URL = f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@ruok_postgres:5432/{os.getenv('POSTGRES_DB')}"
+POSTGRES_URL = f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@postgres:5432/{os.getenv('POSTGRES_DB')}"
 POSTGRES = AsyncConnectionPool(POSTGRES_URL, open=False)
 
 LOGGER = logging.getLogger("uvicorn.error")

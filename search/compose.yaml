@@ -1,6 +1,6 @@
 networks:
-  internal:
-    driver: bridge
+  services_net_postgres:
+    external: true
 
 services:  
   ruok_search_api:
@@ -15,27 +15,6 @@ services:
     volumes:
       - ./src:/app
     networks:
-      - internal
+      - services_net_postgres
     ports:
       - 8100:8100
-    depends_on:
-      - ruok_postgres
-    
-  ruok_postgres:
-    image: postgres:16
-    container_name: ruok_postgres
-    hostname: ruok_postgres
-    restart: always
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - PGDATA=${POSTGRES_DATA_PATH}
-    volumes:
-      - ${POSTGRES_DATA_PATH}:${POSTGRES_DATA_PATH}
-      - ${POSTGRES_CONFIG_PATH}:${POSTGRES_CONFIG_PATH}
-    command: ["postgres", "-c", "config_file=${POSTGRES_CONFIG_PATH}/postgresql.conf"]
-    networks:
-      - internal
-    ports:
-      - 5500:5432
