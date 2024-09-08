@@ -118,6 +118,10 @@ pydantic==2.9.0
     #   openai
 pydantic-core==2.23.2
     # via pydantic
+pyjwt==2.9.0
+    # via -r requirements.in
+python-multipart==0.0.9
+    # via -r requirements.in
 pyyaml==6.0.2
     # via
     #   langchain

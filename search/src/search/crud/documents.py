@@ -22,7 +22,7 @@ async def get(database: AsyncConnectionPool, doc_id: str) -> Document | None:
                 title=raw_data[3],
                 content=raw_data[4],
                 metadata=json.loads(raw_data[5]),
-                embedding=raw_data[6],
+                embedding=json.loads(raw_data[6]),
             )
 
 
@@ -38,6 +38,6 @@ async def add(database: AsyncConnectionPool, document: Document):
                     document.title,
                     document.content,
                     json.dumps(document.metadata),
-                    document.embedding,
+                    json.dumps(document.embedding),
                 ),
             )
