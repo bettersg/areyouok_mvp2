@@ -1,7 +1,6 @@
 import json
 
 from psycopg_pool import AsyncConnectionPool
-
 from search.models import Document
 
 from . import sql

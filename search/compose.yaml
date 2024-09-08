@@ -1,9 +1,5 @@
-volumes:
-  cache:
-    driver: local
-
 networks:
-  search_internal:
+  internal:
     driver: bridge
 
 services:  
@@ -16,19 +12,19 @@ services:
     restart: always
     env_file:
       - ./.env
-    depends_on:
-      - postgres
     volumes:
       - ./src:/app
     networks:
-      - search_internal
+      - internal
     ports:
       - 8100:8100
+    depends_on:
+      - ruok_postgres
     
-  postgres:
+  ruok_postgres:
     image: postgres:16
-    container_name: postgres
-    hostname: postgres
+    container_name: ruok_postgres
+    hostname: ruok_postgres
     restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
@@ -40,4 +36,6 @@ services:
       - ${POSTGRES_CONFIG_PATH}:${POSTGRES_CONFIG_PATH}
     command: ["postgres", "-c", "config_file=${POSTGRES_CONFIG_PATH}/postgresql.conf"]
     networks:
-      - search_internal
+      - internal
+    ports:
+      - 5500:5432

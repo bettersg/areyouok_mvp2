@@ -28,7 +28,7 @@ CHUNKER = SemanticChunker(
     breakpoint_threshold_amount=0.5,
 )
 
-POSTGRES_URL = f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@postgres:5432/{os.getenv('POSTGRES_DB')}"
+POSTGRES_URL = f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@ruok_postgres:5432/{os.getenv('POSTGRES_DB')}"
 POSTGRES = AsyncConnectionPool(POSTGRES_URL, open=False)
 
 LOGGER = logging.getLogger("uvicorn.error")
@@ -41,7 +41,6 @@ async def lifespan(app: FastAPI):
     app.state.text_embedder = EMBEDDINGS
 
     app.state.database = POSTGRES
-
     await app.state.database.open()
     app.state.logger.info("Database and cache connections established.")
 
@@ -52,7 +51,10 @@ async def lifespan(app: FastAPI):
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    lifespan=lifespan,
+    root_path="/ruok/api" if os.getenv("ENV") == "prod" else None,
+)
 
 
 @app.post("/token", response_model=Token, tags=["auth"])
